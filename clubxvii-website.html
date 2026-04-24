@@ -1,0 +1,1290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Club XVII</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,700&family=Instrument+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0a0b;
+  --surface: #111114;
+  --surface2: #18181c;
+  --border: #222228;
+  --border2: #2e2e38;
+  --text: #b0b0bc;
+  --white: #f0f0f4;
+  --dim: #505060;
+  --gold: #c8a96e;
+  --gold2: #e8c88e;
+  --gold-dim: #4a3a1e;
+  --red: #c84848;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Instrument Sans', sans-serif;
+  font-weight: 300;
+  overflow-x: hidden;
+  cursor: none;
+}
+
+/* ── CUSTOM CURSOR ── */
+.cursor {
+  position: fixed;
+  width: 8px; height: 8px;
+  background: var(--gold);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: transform 0.1s ease, width 0.2s ease, height 0.2s ease, opacity 0.2s ease;
+  mix-blend-mode: difference;
+}
+.cursor-ring {
+  position: fixed;
+  width: 36px; height: 36px;
+  border: 1px solid rgba(200,169,110,0.4);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9998;
+  transform: translate(-50%, -50%);
+  transition: all 0.15s ease;
+}
+body:hover .cursor { opacity: 1; }
+
+/* ── NAV ── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 40px;
+  background: linear-gradient(180deg, rgba(10,10,11,0.95) 0%, transparent 100%);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(34,34,40,0.5);
+}
+.nav-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--white);
+  text-decoration: none;
+}
+.nav-logo span { color: var(--gold); }
+.nav-links {
+  display: flex;
+  gap: 32px;
+  list-style: none;
+}
+.nav-links a {
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--dim);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--gold); }
+.nav-cta {
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 10px 24px;
+  border: 1px solid var(--gold);
+  color: var(--gold);
+  text-decoration: none;
+  transition: all 0.25s;
+  background: transparent;
+}
+.nav-cta:hover { background: var(--gold); color: var(--bg); }
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 120px 40px 80px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* animated bg */
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 60% 40%, rgba(200,169,110,0.06) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 40% at 20% 80%, rgba(200,169,110,0.03) 0%, transparent 50%);
+}
+.hero-lines {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(200,169,110,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(200,169,110,0.04) 1px, transparent 1px);
+  background-size: 80px 80px;
+  mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 20%, transparent 80%);
+}
+
+.hero-content { position: relative; z-index: 1; max-width: 1100px; }
+.hero-eyebrow {
+  font-size: 10px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.hero-eyebrow::before { content: ''; width: 40px; height: 1px; background: var(--gold); }
+
+.hero-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(60px, 10vw, 120px);
+  font-weight: 300;
+  line-height: 0.9;
+  letter-spacing: -2px;
+  color: var(--white);
+  margin-bottom: 32px;
+}
+.hero-title em {
+  font-style: italic;
+  color: var(--gold);
+  display: block;
+}
+
+.hero-desc {
+  font-size: 15px;
+  line-height: 1.8;
+  color: var(--text);
+  max-width: 480px;
+  margin-bottom: 48px;
+}
+
+.hero-actions { display: flex; gap: 16px; flex-wrap: wrap; }
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 32px;
+  background: var(--gold);
+  color: var(--bg);
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.25s;
+}
+.btn-primary:hover { background: var(--gold2); transform: translateY(-2px); }
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 32px;
+  border: 1px solid var(--border2);
+  color: var(--text);
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: all 0.25s;
+}
+.btn-ghost:hover { border-color: var(--gold); color: var(--gold); }
+
+.hero-scroll {
+  position: absolute;
+  bottom: 40px; left: 40px;
+  font-size: 9px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--dim);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.hero-scroll::after {
+  content: '';
+  width: 40px; height: 1px;
+  background: var(--dim);
+  animation: scrollLine 2s ease-in-out infinite;
+}
+@keyframes scrollLine {
+  0%,100% { width: 20px; opacity: 0.3; }
+  50% { width: 50px; opacity: 1; }
+}
+
+/* ── SECTION SHARED ── */
+section { padding: 100px 40px; position: relative; }
+.sec-label {
+  font-size: 9px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.sec-label::before { content: ''; width: 30px; height: 1px; background: var(--gold); }
+.sec-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(36px, 5vw, 60px);
+  font-weight: 300;
+  color: var(--white);
+  line-height: 1.05;
+  margin-bottom: 16px;
+  letter-spacing: -0.5px;
+}
+.sec-title em { font-style: italic; color: var(--gold); }
+.sec-sub {
+  font-size: 14px;
+  color: var(--dim);
+  line-height: 1.8;
+  max-width: 500px;
+  margin-bottom: 56px;
+}
+
+/* ── MARQUEE ── */
+.marquee-wrap {
+  overflow: hidden;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 16px 0;
+  background: var(--surface);
+}
+.marquee-track {
+  display: flex;
+  gap: 60px;
+  animation: marquee 20s linear infinite;
+  white-space: nowrap;
+}
+.marquee-item {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 13px;
+  font-style: italic;
+  color: var(--dim);
+  letter-spacing: 1px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-shrink: 0;
+}
+.marquee-item::after { content: '✦'; color: var(--gold); font-style: normal; font-size: 8px; }
+@keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+/* ── ABOUT ── */
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.about-visual {
+  position: relative;
+  height: 500px;
+}
+.about-card {
+  position: absolute;
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  padding: 32px;
+}
+.about-card.main {
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  background: linear-gradient(160deg, var(--surface) 0%, #0d0d10 100%);
+  overflow: hidden;
+}
+.about-card.main::before {
+  content: 'XVII';
+  position: absolute;
+  top: -20px; right: -10px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 180px;
+  font-weight: 700;
+  color: rgba(200,169,110,0.04);
+  line-height: 1;
+  pointer-events: none;
+}
+.about-card-tag { font-size: 9px; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); margin-bottom: 12px; }
+.about-card-title { font-family: 'Cormorant Garamond', serif; font-size: 28px; color: var(--white); font-weight: 300; }
+.about-stat {
+  position: absolute;
+  background: var(--gold);
+  padding: 20px 24px;
+  bottom: -20px; right: -20px;
+}
+.about-stat-num { font-family: 'Cormorant Garamond', serif; font-size: 36px; font-weight: 700; color: var(--bg); line-height: 1; }
+.about-stat-label { font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: rgba(10,10,11,0.6); margin-top: 4px; }
+
+.about-content {}
+.about-text { font-size: 15px; line-height: 1.9; color: var(--text); margin-bottom: 32px; }
+.about-values { display: flex; flex-direction: column; gap: 16px; }
+.about-value {
+  display: flex;
+  gap: 16px;
+  padding: 16px;
+  border-left: 2px solid var(--border);
+  transition: border-color 0.2s;
+}
+.about-value:hover { border-left-color: var(--gold); }
+.av-num { font-family: 'Cormorant Garamond', serif; font-size: 20px; color: var(--gold); flex-shrink: 0; line-height: 1; }
+.av-text { font-size: 12px; color: var(--text); line-height: 1.7; }
+.av-text strong { color: var(--white); font-weight: 500; display: block; margin-bottom: 2px; }
+
+/* ── PRODUCTS ── */
+.products-section { background: var(--surface); }
+.products-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  max-width: 1100px;
+  margin: 0 auto 56px;
+  flex-wrap: wrap;
+  gap: 24px;
+}
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--border);
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.product-card {
+  background: var(--surface);
+  padding: 40px 32px;
+  position: relative;
+  overflow: hidden;
+  transition: background 0.3s;
+  text-decoration: none;
+  display: block;
+  group: true;
+}
+.product-card:hover { background: var(--surface2); }
+.product-card::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--gold);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+}
+.product-card:hover::after { transform: scaleX(1); }
+.product-icon { font-size: 28px; margin-bottom: 20px; }
+.product-cat {
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 8px;
+}
+.product-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px;
+  font-weight: 400;
+  color: var(--white);
+  margin-bottom: 10px;
+  line-height: 1.2;
+}
+.product-desc { font-size: 12px; color: var(--dim); line-height: 1.7; margin-bottom: 20px; }
+.product-price { font-size: 13px; color: var(--gold); font-weight: 500; }
+.product-arrow {
+  position: absolute;
+  top: 32px; right: 32px;
+  font-size: 18px;
+  color: var(--border2);
+  transition: all 0.2s;
+}
+.product-card:hover .product-arrow { color: var(--gold); transform: translate(4px, -4px); }
+
+/* ── APPAREL ── */
+.apparel-section {}
+.apparel-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr;
+  gap: 16px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.apparel-card {
+  position: relative;
+  overflow: hidden;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  aspect-ratio: 3/4;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 24px;
+  text-decoration: none;
+  transition: border-color 0.3s;
+}
+.apparel-card:hover { border-color: var(--gold); }
+.apparel-card.large { aspect-ratio: 3/5; }
+.apparel-bg {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 100px;
+  opacity: 0.06;
+  transition: opacity 0.3s, transform 0.4s;
+}
+.apparel-card:hover .apparel-bg { opacity: 0.1; transform: scale(1.05); }
+.apparel-XVII {
+  position: absolute;
+  top: 16px; right: 16px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 60px;
+  font-weight: 700;
+  color: rgba(200,169,110,0.08);
+  line-height: 1;
+}
+.apparel-tag { font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); margin-bottom: 6px; }
+.apparel-name { font-family: 'Cormorant Garamond', serif; font-size: 20px; color: var(--white); font-weight: 300; margin-bottom: 4px; }
+.apparel-price { font-size: 12px; color: var(--dim); }
+.apparel-coming {
+  position: absolute;
+  top: 16px; left: 16px;
+  font-size: 8px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 5px 10px;
+  border: 1px solid var(--gold);
+  color: var(--gold);
+}
+
+/* ── CONTENT / MEDIA ── */
+.media-section { background: var(--surface); }
+.media-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.media-card {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  padding: 32px;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: border-color 0.25s, transform 0.25s;
+}
+.media-card:hover { border-color: var(--gold); transform: translateY(-4px); }
+.media-card.full { grid-column: 1 / -1; flex-direction: row; align-items: center; gap: 32px; }
+.media-icon {
+  width: 56px; height: 56px;
+  border: 1px solid var(--border2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px;
+  flex-shrink: 0;
+  transition: border-color 0.25s, background 0.25s;
+}
+.media-card:hover .media-icon { border-color: var(--gold); background: var(--gold-dim); }
+.media-platform { font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); }
+.media-title { font-family: 'Cormorant Garamond', serif; font-size: 20px; color: var(--white); font-weight: 400; line-height: 1.2; }
+.media-desc { font-size: 12px; color: var(--dim); line-height: 1.7; flex: 1; }
+.media-action { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); display: flex; align-items: center; gap: 8px; }
+.media-action::after { content: '→'; }
+
+/* ── NEWSLETTER ── */
+.newsletter-section {
+  background: var(--gold);
+  padding: 80px 40px;
+}
+.newsletter-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+.nl-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(32px, 5vw, 52px); font-weight: 300; color: var(--bg); line-height: 1.1; margin-bottom: 12px; }
+.nl-title em { font-style: italic; }
+.nl-sub { font-size: 13px; color: rgba(10,10,11,0.6); line-height: 1.7; }
+.nl-form { display: flex; flex-direction: column; gap: 12px; }
+.nl-input {
+  padding: 16px 20px;
+  background: rgba(10,10,11,0.1);
+  border: 1px solid rgba(10,10,11,0.2);
+  color: var(--bg);
+  font-size: 13px;
+  font-family: 'Instrument Sans', sans-serif;
+  outline: none;
+  transition: border-color 0.2s;
+  width: 100%;
+}
+.nl-input::placeholder { color: rgba(10,10,11,0.4); }
+.nl-input:focus { border-color: var(--bg); }
+.nl-btn {
+  padding: 16px 32px;
+  background: var(--bg);
+  color: var(--gold);
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-weight: 600;
+  border: none;
+  cursor: none;
+  font-family: 'Instrument Sans', sans-serif;
+  transition: opacity 0.2s;
+  align-self: flex-start;
+  width: 100%;
+}
+.nl-btn:hover { opacity: 0.85; }
+.nl-note { font-size: 10px; color: rgba(10,10,11,0.4); }
+
+/* ── BOOK / STREAM ── */
+.access-section { }
+.access-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.access-card {
+  position: relative;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 48px 40px;
+  overflow: hidden;
+  text-decoration: none;
+  display: block;
+  transition: border-color 0.3s;
+}
+.access-card:hover { border-color: var(--gold); }
+.access-card.gold-card {
+  background: linear-gradient(135deg, var(--gold-dim) 0%, var(--surface) 60%);
+  border-color: var(--gold-dim);
+}
+.access-num {
+  position: absolute;
+  top: -20px; right: 20px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 120px;
+  font-weight: 700;
+  color: rgba(200,169,110,0.05);
+  line-height: 1;
+  pointer-events: none;
+}
+.access-icon { font-size: 32px; margin-bottom: 20px; }
+.access-tag { font-size: 9px; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); margin-bottom: 10px; }
+.access-title { font-family: 'Cormorant Garamond', serif; font-size: 32px; font-weight: 300; color: var(--white); margin-bottom: 12px; }
+.access-desc { font-size: 13px; color: var(--dim); line-height: 1.8; margin-bottom: 28px; max-width: 340px; }
+.access-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gold);
+  font-weight: 500;
+  transition: gap 0.2s;
+}
+.access-card:hover .access-btn { gap: 16px; }
+
+/* ── NEWSLETTER ARTICLES ── */
+.articles-section {}
+.articles-list {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.article-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 0;
+  border-bottom: 1px solid var(--border);
+  gap: 32px;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+.article-row:hover { padding-left: 12px; }
+.article-row:first-child { border-top: 1px solid var(--border); }
+.article-left { flex: 1; }
+.article-cat { font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); margin-bottom: 6px; }
+.article-title { font-family: 'Cormorant Garamond', serif; font-size: 20px; color: var(--white); font-weight: 400; line-height: 1.3; }
+.article-date { font-size: 11px; color: var(--dim); flex-shrink: 0; }
+.article-arrow { color: var(--border2); font-size: 16px; flex-shrink: 0; transition: color 0.2s, transform 0.2s; }
+.article-row:hover .article-arrow { color: var(--gold); transform: translate(4px, -4px); }
+
+/* ── TOOLS ── */
+.tools-section { background: var(--surface); }
+.tools-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--border);
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.tool-card {
+  background: var(--surface);
+  padding: 32px 24px;
+  text-decoration: none;
+  transition: background 0.25s;
+  position: relative;
+  overflow: hidden;
+}
+.tool-card:hover { background: var(--surface2); }
+.tool-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--gold);
+  transform: scaleX(0);
+  transition: transform 0.3s;
+}
+.tool-card:hover::before { transform: scaleX(1); }
+.tool-icon { font-size: 24px; margin-bottom: 16px; }
+.tool-name { font-family: 'Cormorant Garamond', serif; font-size: 18px; color: var(--white); margin-bottom: 6px; }
+.tool-desc { font-size: 11px; color: var(--dim); line-height: 1.6; margin-bottom: 16px; }
+.tool-status {
+  font-size: 8px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border: 1px solid var(--border2);
+  color: var(--dim);
+  display: inline-block;
+}
+.tool-status.live { border-color: var(--gold); color: var(--gold); }
+.tool-status.beta { border-color: var(--text); color: var(--text); }
+
+/* ── FOOTER ── */
+footer {
+  padding: 60px 40px 40px;
+  border-top: 1px solid var(--border);
+  max-width: 100%;
+}
+.footer-inner { max-width: 1100px; margin: 0 auto; }
+.footer-top {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr 1fr;
+  gap: 60px;
+  margin-bottom: 60px;
+}
+.footer-brand {}
+.footer-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 28px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  color: var(--white);
+  margin-bottom: 12px;
+}
+.footer-logo span { color: var(--gold); }
+.footer-tagline { font-size: 12px; color: var(--dim); line-height: 1.7; margin-bottom: 20px; max-width: 240px; }
+.footer-socials { display: flex; gap: 12px; }
+.social-link {
+  width: 36px; height: 36px;
+  border: 1px solid var(--border2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px;
+  color: var(--dim);
+  text-decoration: none;
+  transition: all 0.2s;
+}
+.social-link:hover { border-color: var(--gold); color: var(--gold); }
+.footer-col-title { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--white); margin-bottom: 20px; }
+.footer-links { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.footer-links a { font-size: 12px; color: var(--dim); text-decoration: none; transition: color 0.2s; }
+.footer-links a:hover { color: var(--gold); }
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 32px;
+  border-top: 1px solid var(--border);
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.footer-copy { font-size: 11px; color: var(--dim); }
+.footer-written {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 14px;
+  color: var(--gold);
+}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(32px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.reveal {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-4 { transition-delay: 0.4s; }
+
+.hero-eyebrow { animation: fadeUp 0.8s ease both 0.2s; }
+.hero-title { animation: fadeUp 0.9s ease both 0.35s; }
+.hero-desc { animation: fadeUp 0.9s ease both 0.5s; }
+.hero-actions { animation: fadeUp 0.9s ease both 0.65s; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+  nav { padding: 16px 20px; }
+  .nav-links { display: none; }
+  section { padding: 80px 20px; }
+  .hero { padding: 100px 20px 60px; }
+  .about-grid { grid-template-columns: 1fr; }
+  .about-visual { height: 300px; margin-bottom: 40px; }
+  .products-grid { grid-template-columns: 1fr 1fr; }
+  .apparel-grid { grid-template-columns: 1fr 1fr; }
+  .media-grid { grid-template-columns: 1fr; }
+  .media-card.full { flex-direction: column; }
+  .newsletter-inner { grid-template-columns: 1fr; gap: 40px; }
+  .access-grid { grid-template-columns: 1fr; }
+  .tools-grid { grid-template-columns: 1fr 1fr; }
+  .footer-top { grid-template-columns: 1fr 1fr; gap: 40px; }
+}
+@media (max-width: 600px) {
+  .products-grid { grid-template-columns: 1fr; }
+  .apparel-grid { grid-template-columns: 1fr; }
+  .tools-grid { grid-template-columns: 1fr; }
+  .footer-top { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">Club <span>XVII</span></a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#products">Products</a></li>
+    <li><a href="#apparel">Apparel</a></li>
+    <li><a href="#media">Media</a></li>
+    <li><a href="#articles">Articles</a></li>
+    <li><a href="#tools">Tools</a></li>
+  </ul>
+  <a href="#access" class="nav-cta">Book a Call</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-lines"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">clubxvii.com</div>
+    <h1 class="hero-title">
+      Build.<br>
+      Create.<br>
+      <em>Receive.</em>
+    </h1>
+    <p class="hero-desc">A world built on giving — tools, knowledge, products, and access for people who are building something real. The income is written. This is the vessel.</p>
+    <div class="hero-actions">
+      <a href="#products" class="btn-primary">Explore the World →</a>
+      <a href="#access" class="btn-ghost">Book a Conversation</a>
+    </div>
+  </div>
+  <div class="hero-scroll">Scroll</div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <span class="marquee-item">Digital Products</span>
+    <span class="marquee-item">Apparel</span>
+    <span class="marquee-item">Investment Tools</span>
+    <span class="marquee-item">Newsletter</span>
+    <span class="marquee-item">BlastFinder</span>
+    <span class="marquee-item">Book a Call</span>
+    <span class="marquee-item">YouTube</span>
+    <span class="marquee-item">Live Streams</span>
+    <span class="marquee-item">Articles</span>
+    <span class="marquee-item">Community</span>
+    <span class="marquee-item">Digital Products</span>
+    <span class="marquee-item">Apparel</span>
+    <span class="marquee-item">Investment Tools</span>
+    <span class="marquee-item">Newsletter</span>
+    <span class="marquee-item">BlastFinder</span>
+    <span class="marquee-item">Book a Call</span>
+    <span class="marquee-item">YouTube</span>
+    <span class="marquee-item">Live Streams</span>
+    <span class="marquee-item">Articles</span>
+    <span class="marquee-item">Community</span>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-grid">
+    <div class="about-visual reveal">
+      <div class="about-card main">
+        <div class="about-card-tag">Est. 2025</div>
+        <div class="about-card-title">Built to give first.<br>Everything else follows.</div>
+      </div>
+      <div class="about-stat">
+        <div class="about-stat-num">XVII</div>
+        <div class="about-stat-label">The Number</div>
+      </div>
+    </div>
+    <div class="about-content reveal reveal-delay-2">
+      <div class="sec-label">About</div>
+      <h2 class="sec-title">This is your <em>world</em> too.</h2>
+      <p class="about-text">Club XVII exists to give — tools that work, products worth owning, knowledge worth keeping, and direct access to real conversations. Everything here is built with intention and open to everyone. The community comes first. The monetization finds its own way.</p>
+      <div class="about-values">
+        <div class="about-value">
+          <div class="av-num">I</div>
+          <div class="av-text"><strong>Give First</strong>Everything on this platform starts as a gift. Trust is built before anything is sold.</div>
+        </div>
+        <div class="about-value">
+          <div class="av-num">II</div>
+          <div class="av-text"><strong>Build in Public</strong>The process is the content. The journey is the product. Nothing is hidden.</div>
+        </div>
+        <div class="about-value">
+          <div class="av-num">III</div>
+          <div class="av-text"><strong>Nothing Limits</strong>No ceiling. No competition. No one else's timeline. This is a singular path.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCTS -->
+<section id="products" class="products-section">
+  <div class="products-header reveal">
+    <div>
+      <div class="sec-label">Digital Products</div>
+      <h2 class="sec-title">Built once.<br><em>Works forever.</em></h2>
+    </div>
+    <a href="#" class="btn-ghost">View All Products</a>
+  </div>
+  <div class="products-grid reveal reveal-delay-1">
+    <a href="#" class="product-card">
+      <div class="product-arrow">↗</div>
+      <div class="product-icon">📊</div>
+      <div class="product-cat">Finance Tool</div>
+      <div class="product-name">Investment Dashboard Bundle</div>
+      <div class="product-desc">Portfolio simulator, projection calculator, and wealth habit tracker — everything in one download.</div>
+      <div class="product-price">Free → Coming Soon</div>
+    </a>
+    <a href="#" class="product-card">
+      <div class="product-arrow">↗</div>
+      <div class="product-icon">⚾</div>
+      <div class="product-cat">Sports Tool</div>
+      <div class="product-name">BlastFinder</div>
+      <div class="product-desc">Navigate baseball's fragmented streaming world instantly. Know exactly where to watch, tonight.</div>
+      <div class="product-price">Free Beta</div>
+    </a>
+    <a href="#" class="product-card">
+      <div class="product-arrow">↗</div>
+      <div class="product-icon">📖</div>
+      <div class="product-cat">Digital Guide</div>
+      <div class="product-name">The Wealth Principles Journal</div>
+      <div class="product-desc">30 principles. 30 days. A structured guide to rebuilding how you think about money and time.</div>
+      <div class="product-price">Coming Soon</div>
+    </a>
+    <a href="#" class="product-card">
+      <div class="product-arrow">↗</div>
+      <div class="product-icon">🎯</div>
+      <div class="product-cat">Masterclass</div>
+      <div class="product-name">DCA for People Who Actually Work</div>
+      <div class="product-desc">A no-fluff guide to building long-term wealth on a regular income. Practical, honest, real.</div>
+      <div class="product-price">Coming Soon</div>
+    </a>
+    <a href="#" class="product-card">
+      <div class="product-arrow">↗</div>
+      <div class="product-icon">🧠</div>
+      <div class="product-cat">Digital Read</div>
+      <div class="product-name">What Wealthy People Don't Do</div>
+      <div class="product-desc">The habits, decisions, and mindset shifts that separate builders from everyone else. Straight talk.</div>
+      <div class="product-price">Coming Soon</div>
+    </a>
+    <a href="#" class="product-card">
+      <div class="product-arrow">↗</div>
+      <div class="product-icon">🏗</div>
+      <div class="product-cat">Bundle</div>
+      <div class="product-name">The Builder's Stack</div>
+      <div class="product-desc">Every tool, journal, and guide in one place. For people building something real from the ground up.</div>
+      <div class="product-price">Coming Soon</div>
+    </a>
+  </div>
+</section>
+
+<!-- APPAREL -->
+<section id="apparel">
+  <div class="reveal">
+    <div class="sec-label">Apparel</div>
+    <h2 class="sec-title">Wear the <em>vision.</em></h2>
+    <p class="sec-sub">Club XVII clothing is for builders. Minimal. Intentional. Made to last. Dropping soon.</p>
+  </div>
+  <div class="apparel-grid reveal reveal-delay-1">
+    <a href="#" class="apparel-card large">
+      <div class="apparel-bg">👕</div>
+      <div class="apparel-XVII">XVII</div>
+      <div class="apparel-coming">Dropping Soon</div>
+      <div class="apparel-tag">Signature</div>
+      <div class="apparel-name">Club XVII Heavyweight Tee</div>
+      <div class="apparel-price">TBD</div>
+    </a>
+    <a href="#" class="apparel-card">
+      <div class="apparel-bg">🧢</div>
+      <div class="apparel-XVII">XVII</div>
+      <div class="apparel-coming">Dropping Soon</div>
+      <div class="apparel-tag">Headwear</div>
+      <div class="apparel-name">XVII 6-Panel Cap</div>
+      <div class="apparel-price">TBD</div>
+    </a>
+    <a href="#" class="apparel-card">
+      <div class="apparel-bg">🧥</div>
+      <div class="apparel-XVII">XVII</div>
+      <div class="apparel-coming">Dropping Soon</div>
+      <div class="apparel-tag">Outerwear</div>
+      <div class="apparel-name">Builder Coach Jacket</div>
+      <div class="apparel-price">TBD</div>
+    </a>
+  </div>
+</section>
+
+<!-- MEDIA -->
+<section id="media" class="media-section">
+  <div class="reveal">
+    <div class="sec-label">Media & Content</div>
+    <h2 class="sec-title">The conversation <em>never stops.</em></h2>
+    <p class="sec-sub">YouTube, live streams, podcasts — content that actually moves people. Subscribe, follow, show up.</p>
+  </div>
+  <div class="media-grid reveal reveal-delay-1">
+    <a href="https://youtube.com" target="_blank" class="media-card full">
+      <div class="media-icon">▶</div>
+      <div style="flex:1">
+        <div class="media-platform">YouTube</div>
+        <div class="media-title">Club XVII — Official Channel</div>
+        <div class="media-desc">Finance, investing, building businesses, life. Real conversations with no fluff. New videos consistently — subscribe and hit the bell.</div>
+      </div>
+      <div class="media-action">Subscribe Now</div>
+    </a>
+    <a href="#" class="media-card">
+      <div class="media-icon">📡</div>
+      <div class="media-platform">Live Stream</div>
+      <div class="media-title">Weekly Live Sessions</div>
+      <div class="media-desc">Raw, unedited conversations. Market breakdowns, Q&A, life stuff. Free to watch every week.</div>
+      <div class="media-action">Get Notified</div>
+    </a>
+    <a href="#" class="media-card">
+      <div class="media-icon">🎙</div>
+      <div class="media-platform">Podcast</div>
+      <div class="media-title">The XVII Conversations</div>
+      <div class="media-desc">Long-form. Honest. Builders talking to builders. No guests who haven't done the work.</div>
+      <div class="media-action">Coming Soon</div>
+    </a>
+    <a href="#" class="media-card">
+      <div class="media-icon">𝕏</div>
+      <div class="media-platform">X / Twitter</div>
+      <div class="media-title">Daily Thoughts</div>
+      <div class="media-desc">Quick takes on money, mindset, markets, and building. No noise — just signal.</div>
+      <div class="media-action">Follow</div>
+    </a>
+    <a href="#" class="media-card">
+      <div class="media-icon">📸</div>
+      <div class="media-platform">Instagram</div>
+      <div class="media-title">Behind the Build</div>
+      <div class="media-desc">The process. The life. The vision in real time. Follow the journey from the beginning.</div>
+      <div class="media-action">Follow</div>
+    </a>
+  </div>
+</section>
+
+<!-- NEWSLETTER -->
+<section class="newsletter-section">
+  <div class="newsletter-inner">
+    <div class="reveal">
+      <h2 class="nl-title">The XVII<br><em>Letter.</em></h2>
+      <p class="nl-sub">Weekly. Free. Finance, investing, building, life. Written for people who are moving — not waiting. No spam. No filler. Just signal.</p>
+    </div>
+    <div class="reveal reveal-delay-2">
+      <div class="nl-form">
+        <input type="email" class="nl-input" placeholder="Your email address">
+        <input type="text" class="nl-input" placeholder="First name (optional)">
+        <button class="nl-btn">Subscribe — It's Free</button>
+        <div class="nl-note">No spam. Unsubscribe anytime. Read by builders.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ARTICLES -->
+<section id="articles">
+  <div class="reveal">
+    <div class="sec-label">Articles & Reads</div>
+    <h2 class="sec-title">Knowledge that <em>compounds.</em></h2>
+    <p class="sec-sub">Written pieces that live forever. Finance, mindset, building, markets. All free. All honest.</p>
+  </div>
+  <div class="articles-list reveal reveal-delay-1">
+    <a href="#" class="article-row">
+      <div class="article-left">
+        <div class="article-cat">Finance</div>
+        <div class="article-title">Why XLK Beats SPY Over 20 Years — And What That Actually Means For You</div>
+      </div>
+      <div class="article-date">Apr 2026</div>
+      <div class="article-arrow">↗</div>
+    </a>
+    <a href="#" class="article-row">
+      <div class="article-left">
+        <div class="article-cat">Mindset</div>
+        <div class="article-title">What Wealthy People Don't Do: The Habits That Kill Compounding</div>
+      </div>
+      <div class="article-date">Apr 2026</div>
+      <div class="article-arrow">↗</div>
+    </a>
+    <a href="#" class="article-row">
+      <div class="article-left">
+        <div class="article-cat">Investing</div>
+        <div class="article-title">DCA vs Lump Sum: The Real Answer For People With Regular Incomes</div>
+      </div>
+      <div class="article-date">Apr 2026</div>
+      <div class="article-arrow">↗</div>
+    </a>
+    <a href="#" class="article-row">
+      <div class="article-left">
+        <div class="article-cat">Building</div>
+        <div class="article-title">Why Trading Ties You Up — And What To Do Instead When You're Building Something</div>
+      </div>
+      <div class="article-date">Apr 2026</div>
+      <div class="article-arrow">↗</div>
+    </a>
+    <a href="#" class="article-row">
+      <div class="article-left">
+        <div class="article-cat">Money</div>
+        <div class="article-title">Your Money Market Account Is Underperforming You. Here's The Fix.</div>
+      </div>
+      <div class="article-date">Apr 2026</div>
+      <div class="article-arrow">↗</div>
+    </a>
+    <a href="#" class="article-row">
+      <div class="article-left">
+        <div class="article-cat">Vision</div>
+        <div class="article-title">It Is Written: On Building the Vessel Before the Income Arrives</div>
+      </div>
+      <div class="article-date">Apr 2026</div>
+      <div class="article-arrow">↗</div>
+    </a>
+  </div>
+  <div style="text-align:center;margin-top:48px;" class="reveal">
+    <a href="#" class="btn-ghost">Read All Articles</a>
+  </div>
+</section>
+
+<!-- TOOLS -->
+<section id="tools" class="tools-section">
+  <div class="reveal">
+    <div class="sec-label">Tools</div>
+    <h2 class="sec-title">Built to <em>work.</em></h2>
+    <p class="sec-sub">Free tools that actually do something useful. No fluff. No paywall to get started.</p>
+  </div>
+  <div class="tools-grid reveal reveal-delay-1">
+    <a href="#" class="tool-card">
+      <div class="tool-icon">⚾</div>
+      <div class="tool-name">BlastFinder</div>
+      <div class="tool-desc">Find where to watch any MLB game tonight across all 6 streaming platforms. Instantly.</div>
+      <div class="tool-status beta">Beta</div>
+    </a>
+    <a href="#" class="tool-card">
+      <div class="tool-icon">📊</div>
+      <div class="tool-name">Portfolio Simulator</div>
+      <div class="tool-desc">Project your investments across 18+ assets over 20 years with real historical CAGR data.</div>
+      <div class="tool-status live">Live</div>
+    </a>
+    <a href="#" class="tool-card">
+      <div class="tool-icon">💰</div>
+      <div class="tool-name">Spending Auditor</div>
+      <div class="tool-desc">Input your monthly spending. See exactly what's leaking and what it costs you in 20-year compounding.</div>
+      <div class="tool-status">Coming Soon</div>
+    </a>
+    <a href="#" class="tool-card">
+      <div class="tool-icon">📈</div>
+      <div class="tool-name">DCA Calculator</div>
+      <div class="tool-desc">Dollar-cost averaging made visual. See exactly how consistent monthly investing beats everything else.</div>
+      <div class="tool-status">Coming Soon</div>
+    </a>
+  </div>
+</section>
+
+<!-- ACCESS -->
+<section id="access">
+  <div class="reveal">
+    <div class="sec-label">Access</div>
+    <h2 class="sec-title">Direct <em>access.</em><br>Real conversations.</h2>
+    <p class="sec-sub">Book time. Watch live. The door is open — for now, for free.</p>
+  </div>
+  <div class="access-grid reveal reveal-delay-1">
+    <a href="https://cal.com" target="_blank" class="access-card gold-card">
+      <div class="access-num">I</div>
+      <div class="access-icon">🤝</div>
+      <div class="access-tag">1-on-1</div>
+      <div class="access-title">Book a Conversation</div>
+      <div class="access-desc">30 minutes. Real talk. Finance, investing, building, content, whatever's on your mind. No agenda — just a conversation between people who are moving.</div>
+      <div class="access-btn">Book Now — It's Free →</div>
+    </a>
+    <a href="https://youtube.com" target="_blank" class="access-card">
+      <div class="access-num">II</div>
+      <div class="access-icon">📡</div>
+      <div class="access-tag">Live</div>
+      <div class="access-title">Join the Live Stream</div>
+      <div class="access-desc">Weekly live sessions — market breakdowns, Q&A, conversations in real time. Subscribe to get notified when we go live. Free, always.</div>
+      <div class="access-btn">Subscribe to Channel →</div>
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="footer-logo">Club <span>XVII</span></div>
+        <p class="footer-tagline">Built to give first. Everything else follows. The income is already written.</p>
+        <div class="footer-socials">
+          <a href="#" class="social-link">▶</a>
+          <a href="#" class="social-link">𝕏</a>
+          <a href="#" class="social-link">📸</a>
+          <a href="#" class="social-link">in</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">Products</div>
+        <ul class="footer-links">
+          <li><a href="#">Digital Bundle</a></li>
+          <li><a href="#">BlastFinder</a></li>
+          <li><a href="#">Wealth Journal</a></li>
+          <li><a href="#">DCA Guide</a></li>
+          <li><a href="#">Builder's Stack</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Content</div>
+        <ul class="footer-links">
+          <li><a href="#">YouTube</a></li>
+          <li><a href="#">Newsletter</a></li>
+          <li><a href="#">Articles</a></li>
+          <li><a href="#">Podcast</a></li>
+          <li><a href="#">Live Streams</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Connect</div>
+        <ul class="footer-links">
+          <li><a href="#">Book a Call</a></li>
+          <li><a href="#">Apparel</a></li>
+          <li><a href="#">Tools</a></li>
+          <li><a href="#">About</a></li>
+          <li><a href="mailto:hello@clubxvii.com">hello@clubxvii.com</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2026 Club XVII. All rights reserved.</div>
+      <div class="footer-written">It is written.</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Custom cursor
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursorRing');
+let mx = 0, my = 0, rx = 0, ry = 0;
+
+document.addEventListener('mousemove', e => {
+  mx = e.clientX; my = e.clientY;
+  cursor.style.left = mx + 'px';
+  cursor.style.top = my + 'px';
+});
+
+function animateRing() {
+  rx += (mx - rx) * 0.12;
+  ry += (my - ry) * 0.12;
+  ring.style.left = rx + 'px';
+  ring.style.top = ry + 'px';
+  requestAnimationFrame(animateRing);
+}
+animateRing();
+
+// Hover effects on interactive elements
+document.querySelectorAll('a, button, .product-card, .media-card, .article-row, .tool-card, .access-card, .apparel-card').forEach(el => {
+  el.addEventListener('mouseenter', () => {
+    cursor.style.width = '20px';
+    cursor.style.height = '20px';
+    ring.style.width = '56px';
+    ring.style.height = '56px';
+    ring.style.borderColor = 'rgba(200,169,110,0.6)';
+  });
+  el.addEventListener('mouseleave', () => {
+    cursor.style.width = '8px';
+    cursor.style.height = '8px';
+    ring.style.width = '36px';
+    ring.style.height = '36px';
+    ring.style.borderColor = 'rgba(200,169,110,0.4)';
+  });
+});
+
+// Scroll reveal
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.1 });
+reveals.forEach(r => observer.observe(r));
+
+// Nav scroll effect
+const nav = document.querySelector('nav');
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 80) {
+    nav.style.borderBottomColor = 'rgba(34,34,40,0.8)';
+  } else {
+    nav.style.borderBottomColor = 'rgba(34,34,40,0.5)';
+  }
+});
+</script>
+</body>
+</html>
